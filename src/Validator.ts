@@ -1,5 +1,10 @@
 import * as config from './config';
 import * as writer from './writeFile';
+import * as db from './dbConnect';
+import { brotliDecompress } from 'zlib';
+// const Sequelize = require('sequelize');
+
+
 
 interface forObj{
   ID: string,
@@ -8,7 +13,6 @@ interface forObj{
   Mail: string,
   'Date of Registration': string,
   Phone: string
-
 }
 interface forregExps{
   ID: RegExp,
@@ -46,6 +50,7 @@ export default class Validator {
       }
     }
     this.sendObj();
+
   }
 
 
@@ -72,6 +77,8 @@ export default class Validator {
       writer.writeFile(`INVALID OBJECT - ${JSON.stringify(this.obj)}`);
       writer.writeFile(`INVALID FIELDS: ${this.uniqueArr(this.invalidData).join(', ')}`);
       writer.writeFile('\n');
+    } else {
+      db.addUser(this.obj);
     }
   }
 

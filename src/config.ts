@@ -100,27 +100,27 @@ export let csv: ColumnDescriptor[] = [
 //   }, 
 //   { 
 //   name: "Name", 
-//   type: 'VARCHAR', 
+//   type: VARCHAR, 
 //   data: "Name"
 //   }, 
 //   { 
 //   name: "Surname", 
-//   type: 'VARCHAR', 
+//   type: VARCHAR, 
 //   data: "Surname"
 //   }, 
 //   { 
 //   name: "Mail", 
-//   type: 'VARCHAR', 
+//   type: VARCHAR, 
 //   data: "Mail"
 //   }, 
 //   { 
 //   name: "Date", 
-//   type: 'DATE', 
+//   type: DATE, 
 //   data: "Date of registration"
 //   }, 
 //   { 
 //   name: "Phone", 
-//   type: 'INT', 
+//   type: INT, 
 //   data: "Phone"
 //   }, 
 // ]
