@@ -57,7 +57,8 @@ export default class Validator {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         config.csv[i].validators.forEach((item) => {
-          console.log(typeof(item));
+          let z: any = item;
+          console.log(z.validate(obj[key as keyof forObj]));
           
           // if (item == _require)
         })

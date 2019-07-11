@@ -16,43 +16,45 @@ interface Validators<T> {
 
 let ID: CsvType = {
   parseString: function (str: string) {
-    // if(/^[0-9]+$/.test(str)) return this;
-    // else return this;
     return str;
   }
 }
 
 let Mail: CsvType = {
   parseString: function (str: string) {
-    // if(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(str)) return this;
-    // else return this;
     return str;
   }
 }
 
 let Phone: CsvType = {
   parseString: function (str: string) {
-    // if (/^375(17|25|29|33|44)[0-9]{7}$/.test(str.replace(/\s+/g, ''))) return this;
-    // else return this;
     return str;
   }
 }
-let fooValidator: any = (function(): boolean {
-  return true;
-})()
-let _require: any = (function(): boolean {
-  return true;
-})()
+let fooValidator: Validators<string> = {
+  validate: function (str: string) {
+    let rezult: string[] = [];
+    if(/^(0?[1-9]|[12][0-9]|3[01])[\/\-\s\,.](0?[1-9]|1[012])[\/\-\s\,.]\d{4}$/.test(str)) return rezult
+    return ['Incorrect the date']
+  }
+}
 
-function _length(min:number, max:number) : any {
-  // return {
-  //     validate: function (str: string) {
-  //         let errors : string[] = [];
-  //         if (str.length < min || str.length > max) errors.push(`length error(minLength: ${min}, maxLength: ${max}, value: ${str})`);
-  //         return errors;
-  //     }
-  // }
-  return [min, max];
+let _require: Validators<string> = {
+  validate: function (str: string) {
+    let rezult: string[] = [];
+    if (str.length > 0) return rezult
+    return ['This field is required']
+  }
+}
+
+function _length(min:number, max:number) : Validators<string> {
+  return {
+    validate: function (str: string) {
+        let rezult: string[] = [];
+        if ((str.length >= min) && (str.length <= max)) return rezult;
+        return [`This field should contain at least ${min} and not contain more than ${max} characters`];
+    }
+  }
 }
 
 
