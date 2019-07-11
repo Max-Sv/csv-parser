@@ -52,8 +52,6 @@ export default class Validator {
 
   
   match(key: string, param: any): string[] {
-    // console.log(param);
-    
     if (this.regExps[key as keyof forregExps].test(param)) return [];
     return ['Data entered incorrectly']
   };
@@ -68,11 +66,11 @@ export default class Validator {
 
   sendObj() {
     if (!this.isCorrect) {
-      console.log(`invalid object - ${JSON.stringify(this.obj)}`);
-      console.log(`invalid fields - ${this.uniqueArr(this.invalidData).join(', ')}`);
+      console.log(`INVALID OBJECT - ${JSON.stringify(this.obj)}`);
+      console.log(`INVALID FIELDS: ${this.uniqueArr(this.invalidData).join(', ')}`);
       console.log('\n');
-      writer.writeFile(`invalid object - ${JSON.stringify(this.obj)}`);
-      writer.writeFile(`invalid fields - ${this.uniqueArr(this.invalidData).join(', ')}`);
+      writer.writeFile(`INVALID OBJECT - ${JSON.stringify(this.obj)}`);
+      writer.writeFile(`INVALID FIELDS: ${this.uniqueArr(this.invalidData).join(', ')}`);
       writer.writeFile('\n');
     }
   }
