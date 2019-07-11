@@ -1,14 +1,8 @@
-// import settings from './csvConfig';
 import * as config from './config';
+import * as writer from './writeFile';
 
-interface forRules{
-  rules: object;
-  messages: object;
-  onError(): void;
-  onSuccess(): void; 
-}
 interface forObj{
-  ID: object,
+  ID: string,
   Name: string,
   Surname: string,
   Mail: string,
@@ -16,108 +10,75 @@ interface forObj{
   Phone: string
 
 }
+interface forregExps{
+  ID: RegExp,
+  Mail: RegExp,
+  Phone: RegExp
+}
 
-// var emailValidation = new Validator(email, settings);
 export default class Validator {
   private obj: forObj;
-  // private type: string;
-  // private value: string;
-  // private length: number;
+  private isCorrect: boolean;
+  private invalidData: string[];
+  private fs = require('fs');
 
-  private settings: forRules = {
-    rules: {
-      // min: minLength,
-      // max: minLength,
-      // match: type
-    },
-    messages: {
-      required: 'This field is required',
-      min: `Поле должно содержать больше символов`,
-      max: 'Поле не должно содержать больше символов',
-      match: 'Поле должно содержать валидный адрес электронной почты'
-    },
-    onError: function(): void { console.log('Валидация провалена'); },
-    onSuccess: function(): void { console.log('Валидация прошла успешно'); }
-  };
-  
-
-  // private options: forRules;
-  // private rules: any;
-  // private messages: any;
-
-  public regExps = {
-    ID: /^\[0-9]+$/,
+  private regExps: forregExps = {
+    ID: /^[0-9]+$/,
     Mail: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i,
-    Phone: /^(\+375|375|80)(25|29|33|44)(([0-9]{7})|[0-9]{3}( [0-9]{2}){2})$/,
+    Phone: /^(\+375|375|80)\s*(25|29|33|44)\s*(([0-9]{7})|[0-9]{3}( [0-9]{2}){2})$/,
   };
 
   constructor(obj: forObj) {
     this.obj = obj;
+    this.isCorrect = true;
+    this.invalidData = [];
     let i: number = 0;
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
-        config.csv[i].validators.forEach((item) => {
-          let z: any = item;
-          console.log(z.validate(obj[key as keyof forObj]));
-          
-          // if (item == _require)
-        })
-        // console.log(config.csv[i].validators[0]);
-        // console.log( typeof(config.csv[i].type));
         if (typeof(config.csv[i].type) == "object") {
-          let x: any = config.csv[0].type;
-          // console.log(x.parseString(key));
+          this.correctObj(this.match(key, obj[key as keyof forObj]), key)
         }
-          // else console.log( typeof(config.csv[i].type))
-          
-        console.log(`${key} = ${obj[key as keyof forObj]}`);
+        config.csv[i].validators.forEach((item) => {
+          this.correctObj(item.validate(obj[key as keyof forObj]), key)
+        })  
+        // console.log(`${key} = ${this.obj[key as keyof forObj]}`);
         i++
-        
       }
     }
-    // this.type = type;
-    // this.value = value;
-    // this.length = this.value.length;
-
-    // this.options = options;
-    // this.rules = this.options.rules;
-    // this.messages = this.options.messages;
+    this.sendObj();
   }
 
-  // required(): boolean {
-  //   return this.length > 0;
-  // };
 
-  // min(param: any):boolean {
-  //   return this.length >= param;
-  // };
-  
-  // max(param: any):boolean {
-  //   return this.length <= param;
-  // };
 
   
-  // match(param: any): boolean {
-  //   return this.regExps[param].test(this.element);
-  // };
+  match(key: string, param: any): string[] {
+    // console.log(param);
+    
+    if (this.regExps[key as keyof forregExps].test(param)) return [];
+    return ['Data entered incorrectly']
+  };
 
-  // validate() {
-  //   let isValid: boolean = true;
-  //   for (let rule in this.rules) {
-  //     let param = this.rules[rule];
-  //     let result: boolean = (<any>this[rule as keyof Validator])(param);
-  //     // console.log(rule);
-  //     if (!result) {
-  //       isValid = false;
-  //       this.options.onError.call(this);
-  //       console.log((<any>this.messages[rule as keyof forRules]));
-  //       break;
-  //     }
-  //   }
-  //   if (isValid) {
-  //     this.options.onSuccess.call(this);
-  //   }
-  // };
+  correctObj(err: string[], key: string):void {
+    if(err.length != 0) {
+      this.isCorrect = false;
+      this.obj[key as keyof forObj] += ` <- ${err}`
+      this.invalidData.push(key);
+    }
+  }
 
+  sendObj() {
+    if (!this.isCorrect) {
+      console.log(`invalid object - ${JSON.stringify(this.obj)}`);
+      console.log(`invalid fields - ${this.uniqueArr(this.invalidData).join(', ')}`);
+      console.log('\n');
+      writer.writeFile(`invalid object - ${JSON.stringify(this.obj)}`);
+      writer.writeFile(`invalid fields - ${this.uniqueArr(this.invalidData).join(', ')}`);
+      writer.writeFile('\n');
+    }
+  }
+
+  uniqueArr(arr:string[]): string[] {
+    return arr.filter((elem, index, self) => index === self.indexOf(elem)  )
+  }
 
 }

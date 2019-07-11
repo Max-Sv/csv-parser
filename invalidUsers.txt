@@ -1,0 +1,23 @@
+invalid object - {"ID":"1003","Name":"Anna","Surname":"Antonova","Mail":"Anna@gmail.ru",
+"Date of registration":"03/13/2014 <- Incorrect the date","Phone":"375 44 8541254"}
+invalid fields - Date of registration
+
+invalid object - {"ID":"1003","Name":"Anna","Surname":"Antonova","Mail":"Anna@gmail.ru",
+"Date of registration":"03/13/2014 <- Incorrect the date","Phone":"375 44 8541254"}
+invalid fields - Date of registration
+
+invalid object - {"ID":"1004","Name":"Max","Surname":"Vasiliev","Mail":"Max@mail.ru",
+"Date of registration":"05.07.2008","Phone":"375 29 14521445 <- Data entered incorrectly <- This field should contain at least 14 and not contain more than 16 characters"}
+invalid fields - Phone
+
+invalid object - {"ID":"1006","Name":"Oleg","Surname":"Kats","Mail":"Oleg@mail.ru","Date of registration":"29\t1\t2016",
+"Phone":"375 28 2540033 <- Data entered incorrectly <- This field should contain at least 14 and not contain more than 16 characters"}
+invalid fields - Phone
+
+invalid object - {"ID":"1008","Name":"Elena","Surname":"Glazov","Mail":"Elena@mail.ru","Date of registration":"24\t4\t2014",
+"Phone":"375 30 2561421 <- Data entered incorrectly <- This field should contain at least 14 and not contain more than 16 characters"}
+invalid fields - Phone
+
+invalid object - {"ID":"1008","Name":"Igor","Surname":"Igorov","Mail":"Igor@mail.ru",
+"Date of registration":"25\t0\t2018 <- Incorrect the date","Phone":"375 29 340157"}
+invalid fields - Date of registration

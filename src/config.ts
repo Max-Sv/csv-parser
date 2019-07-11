@@ -5,7 +5,7 @@ interface ColumnDescriptor {
 }
 
 interface CsvType {
-  parseString(str: string): string;
+  parseString(str: string): this;
 }
 
 interface Validators<T> {
@@ -16,21 +16,22 @@ interface Validators<T> {
 
 let ID: CsvType = {
   parseString: function (str: string) {
-    return str;
+    return this;
   }
 }
 
 let Mail: CsvType = {
   parseString: function (str: string) {
-    return str;
+    return this;
   }
 }
 
 let Phone: CsvType = {
   parseString: function (str: string) {
-    return str;
+    return this;
   }
 }
+
 let fooValidator: Validators<string> = {
   validate: function (str: string) {
     let rezult: string[] = [];
@@ -41,8 +42,7 @@ let fooValidator: Validators<string> = {
 
 let _require: Validators<string> = {
   validate: function (str: string) {
-    let rezult: string[] = [];
-    if (str.length > 0) return rezult
+    if (str.length > 0) return [];
     return ['This field is required']
   }
 }
@@ -50,8 +50,7 @@ let _require: Validators<string> = {
 function _length(min:number, max:number) : Validators<string> {
   return {
     validate: function (str: string) {
-        let rezult: string[] = [];
-        if ((str.length >= min) && (str.length <= max)) return rezult;
+        if ((str.length >= min) && (str.length <= max)) return [];
         return [`This field should contain at least ${min} and not contain more than ${max} characters`];
     }
   }
