@@ -1,12 +1,8 @@
 import * as config from './config';
 import * as writer from './writeFile';
 import * as db from './dbConnect';
-import { brotliDecompress } from 'zlib';
-// const Sequelize = require('sequelize');
 
-
-
-interface forObj{
+export interface forObj{
   ID: string,
   Name: string,
   Surname: string,
@@ -14,19 +10,19 @@ interface forObj{
   'Date of Registration': string,
   Phone: string
 }
-interface forregExps{
+export interface forregExps{
   ID: RegExp,
   Mail: RegExp,
   Phone: RegExp
 }
 
-export default class Validator {
+export class Validator {
   private obj: forObj;
   private isCorrect: boolean;
   private invalidData: string[];
-  private fs = require('fs');
+  // private fs = require('fs');
 
-  private regExps: forregExps = {
+  public regExps: forregExps = {
     ID: /^[0-9]+$/,
     Mail: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i,
     Phone: /^(\+375|375|80)\s*(25|29|33|44)\s*(([0-9]{7})|[0-9]{3}( [0-9]{2}){2})$/,
@@ -50,12 +46,8 @@ export default class Validator {
       }
     }
     this.sendObj();
-
   }
 
-
-
-  
   match(key: string, param: any): string[] {
     if (this.regExps[key as keyof forregExps].test(param)) return [];
     return ['Data entered incorrectly']

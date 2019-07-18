@@ -14,25 +14,25 @@ interface Validators<T> {
 }
 
 
-let ID: CsvType = {
+export let ID: CsvType = {
   parseString: function (str: string) {
     return this;
   }
 }
 
-let Mail: CsvType = {
+export let Mail: CsvType = {
   parseString: function (str: string) {
     return this;
   }
 }
 
-let Phone: CsvType = {
+export let Phone: CsvType = {
   parseString: function (str: string) {
     return this;
   }
 }
 
-let fooValidator: Validators<string> = {
+export let fooValidator: Validators<string> = {
   validate: function (str: string) {
     let rezult: string[] = [];
     if(/^(0?[1-9]|[12][0-9]|3[01])[\/\-\s\,.](0?[1-9]|1[012])[\/\-\s\,.]\d{4}$/.test(str)) return rezult
@@ -40,14 +40,14 @@ let fooValidator: Validators<string> = {
   }
 }
 
-let _require: Validators<string> = {
+export let _require: Validators<string> = {
   validate: function (str: string) {
     if (str.length > 0) return [];
     return ['This field is required']
   }
 }
 
-function _length(min:number, max:number) : Validators<string> {
+export function _length(min:number, max:number) : Validators<string> {
   return {
     validate: function (str: string) {
         if ((str.length >= min) && (str.length <= max)) return [];

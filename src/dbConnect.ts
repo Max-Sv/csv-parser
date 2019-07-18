@@ -45,7 +45,7 @@ User.sync({ force: true }).then(() => {
     Name: obj.Name,
     Surname: obj.Surname,
     Mail: obj.Mail,
-    Date: obj["Date of Registration"],
+    Date: obj['Date of Registration'],
     Phone: obj.Phone
   });
 });

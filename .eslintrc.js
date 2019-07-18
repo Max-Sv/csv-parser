@@ -3,7 +3,8 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
-    typescript: true
+    typescript: true,
+    jest: true
     },
     extends: 'airbnb-base',
     parser: 'typescript-eslint-parser',
